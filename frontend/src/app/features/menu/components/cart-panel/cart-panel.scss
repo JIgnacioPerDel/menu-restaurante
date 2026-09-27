@@ -1,0 +1,130 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgb(0 0 0 / 0.4);
+}
+
+.sheet {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  max-width: 760px;
+  max-height: 88vh;
+  margin: 0 auto;
+  padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom));
+  background: var(--color-surface);
+  border-radius: 1rem 1rem 0 0;
+  box-shadow: 0 -8px 30px rgb(0 0 0 / 0.15);
+}
+
+.sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h2 {
+    margin: 0;
+    font-size: 1.15rem;
+  }
+}
+
+.icon-btn {
+  width: 2.2rem;
+  height: 2.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  background: var(--color-bg);
+  border: none;
+  border-radius: 50%;
+}
+
+.lines {
+  flex: 1;
+  margin: 0.75rem 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.line {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.line-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.line-controls {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.line-notes {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.9rem;
+}
+
+.stepper {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.4rem;
+
+  button {
+    width: 1.9rem;
+    height: 1.9rem;
+    font-size: 1.1rem;
+    color: var(--color-primary-dark);
+    cursor: pointer;
+    background: var(--color-primary-soft);
+    border: none;
+    border-radius: 50%;
+  }
+
+  span {
+    min-width: 1.2rem;
+    font-weight: 700;
+    text-align: center;
+  }
+}
+
+.general-notes {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.sheet-footer {
+  padding-top: 0.75rem;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  font-size: 1.15rem;
+}
+
+.hint {
+  margin: 0.5rem 0 0;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.empty {
+  padding: 2rem 0;
+  text-align: center;
+}

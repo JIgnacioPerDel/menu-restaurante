@@ -1,0 +1,48 @@
+<div class="page-head">
+  <h1 class="page-title">Pedidos</h1>
+  <div class="tabs" role="tablist">
+    <button type="button" role="tab" [class.active]="scope() === 'active'" (click)="setScope('active')">
+      En curso
+    </button>
+    <button type="button" role="tab" [class.active]="scope() === 'history'" (click)="setScope('history')">
+      Historial
+    </button>
+  </div>
+  @if (lastUpdate(); as updated) {
+    <span class="muted updated">Actualizado {{ updated | date: 'mediumTime' }}</span>
+  }
+</div>
+
+<app-error-message [message]="error()" />
+
+@if (scope() === 'active') {
+  <div class="board">
+    @for (status of columns; track status) {
+      <section class="column">
+        <h2>
+          {{ statusLabels[status] }}
+          <span class="count">{{ byStatus().get(status)?.length }}</span>
+        </h2>
+        @for (order of byStatus().get(status); track order.id) {
+          <app-order-card
+            [order]="order"
+            [isNew]="newIds().has(order.id)"
+            [busy]="updating() === order.id"
+            (changeStatus)="advance(order, $event)"
+            (seen)="markSeen(order.id)"
+          />
+        } @empty {
+          <p class="muted empty">Sin pedidos</p>
+        }
+      </section>
+    }
+  </div>
+} @else {
+  <div class="history">
+    @for (order of orders(); track order.id) {
+      <app-order-card [order]="order" [showAge]="false" />
+    } @empty {
+      <p class="muted">Todavía no hay pedidos servidos ni cancelados.</p>
+    }
+  </div>
+}

@@ -1,0 +1,121 @@
+.center {
+  text-align: center;
+}
+
+.not-found {
+  margin-top: 2rem;
+
+  h1 {
+    margin-top: 0;
+    font-size: 1.3rem;
+  }
+}
+
+.table-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.table-badge {
+  padding: 0.3rem 0.8rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--color-primary);
+  border-radius: 999px;
+}
+
+.notice {
+  padding: 0.75rem 1rem;
+  color: var(--color-warning-text);
+  background: var(--color-warning-bg);
+  border-radius: var(--radius);
+}
+
+.confirmation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  margin-bottom: 1rem;
+  padding: 0.9rem 1rem;
+  color: var(--color-success-text);
+  background: var(--color-success-bg);
+  border-radius: var(--radius);
+
+  .link {
+    margin-left: auto;
+    font: inherit;
+    color: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+}
+
+.my-orders {
+  margin-bottom: 1.25rem;
+
+  h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.05rem;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li + li {
+    margin-top: 0.6rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--color-border);
+  }
+}
+
+.order-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-weight: 600;
+}
+
+.order-lines {
+  margin: 0.2rem 0 0;
+  font-size: 0.875rem;
+}
+
+.cart-bar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 30;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+  background: linear-gradient(to top, var(--color-bg) 70%, transparent);
+}
+
+.cart-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.1rem;
+  font-size: 1rem;
+  box-shadow: 0 6px 20px rgb(194 65 12 / 0.35);
+
+  .count {
+    min-width: 1.6rem;
+    padding: 0.1rem 0.45rem;
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    background: #fff;
+    border-radius: 999px;
+  }
+}

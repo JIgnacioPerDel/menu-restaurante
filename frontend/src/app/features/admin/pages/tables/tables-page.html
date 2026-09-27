@@ -1,0 +1,45 @@
+<div class="page-head no-print">
+  <h1 class="page-title">Mesas y códigos QR</h1>
+  <button type="button" class="btn" (click)="print()">🖨 Imprimir QR</button>
+</div>
+
+<app-error-message [message]="error()" />
+
+<form class="card add-form no-print" [formGroup]="form" (ngSubmit)="save()">
+  <input formControlName="name" maxlength="40" placeholder="Nombre de la mesa (p. ej. Mesa 9, Terraza 2)" />
+  <button type="submit" class="btn btn-primary">{{ editingId() ? 'Guardar' : 'Añadir mesa' }}</button>
+  @if (editingId()) {
+    <button type="button" class="btn" (click)="cancelEdit()">Cancelar</button>
+  }
+</form>
+
+<div class="grid">
+  @for (table of tables(); track table.id) {
+    <article class="card table-card" [class.inactive]="!table.active">
+      <header>
+        <h2>{{ table.name }}</h2>
+        <button type="button" class="toggle no-print" [class.on]="table.active" (click)="toggleActive(table)"
+                [attr.aria-pressed]="table.active">
+          {{ table.active ? 'Activa' : 'Desactivada' }}
+        </button>
+      </header>
+
+      @if (qrUrls()[table.id]; as qr) {
+        <img [src]="qr" [alt]="'Código QR de ' + table.name" class="qr" width="512" height="512" />
+      } @else {
+        <div class="qr placeholder"></div>
+      }
+      <p class="print-only print-hint">Escanea para ver la carta y pedir</p>
+
+      <a class="url no-print" [href]="table.orderUrl" target="_blank" rel="noopener">{{ table.orderUrl }}</a>
+
+      <div class="actions no-print">
+        <button type="button" class="btn btn-sm" (click)="download(table)">Descargar</button>
+        <button type="button" class="btn btn-sm" (click)="edit(table)">Renombrar</button>
+        <button type="button" class="btn btn-sm btn-ghost-danger" (click)="regenerate(table)">Regenerar QR</button>
+      </div>
+    </article>
+  } @empty {
+    <p class="muted">Todavía no hay mesas.</p>
+  }
+</div>

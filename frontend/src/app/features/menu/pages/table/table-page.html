@@ -1,0 +1,87 @@
+@switch (state()) {
+  @case ('loading') {
+    <p class="muted center">Cargando tu mesa…</p>
+  }
+
+  @case ('not-found') {
+    <div class="card center not-found">
+      <h1>No encontramos esta mesa</h1>
+      <p class="muted">Es posible que el código QR haya cambiado. Pide ayuda al personal o consulta la carta.</p>
+      <a class="btn" href="/carta">Ver la carta</a>
+    </div>
+  }
+
+  @case ('ready') {
+    @if (table(); as table) {
+      <div class="table-banner">
+        <span class="table-badge">{{ table.name }}</span>
+        @if (table.active) {
+          <span class="muted">Elige tus platos y envía el pedido desde aquí.</span>
+        }
+      </div>
+
+      @if (!table.active) {
+        <p class="notice">Esta mesa no admite pedidos ahora mismo. Avisa al personal.</p>
+      }
+    }
+
+    <app-error-message [message]="error()" />
+
+    @if (justSent(); as sent) {
+      <div class="confirmation" role="status">
+        <strong>¡Pedido #{{ sent.id }} enviado!</strong>
+        <span>La cocina ya lo tiene. Total: {{ sent.total | currency }}</span>
+        <button type="button" class="link" (click)="justSent.set(null)">Cerrar</button>
+      </div>
+    }
+
+    @if (orders().length) {
+      <section class="my-orders card">
+        <h2>Tus pedidos</h2>
+        <ul>
+          @for (order of orders(); track order.id) {
+            <li>
+              <div class="order-head">
+                <span>#{{ order.id }} · {{ order.createdAt | date: 'shortTime' }}</span>
+                <span class="status" [attr.data-status]="order.status">{{ statusLabels[order.status] }}</span>
+              </div>
+              <p class="muted order-lines">
+                @for (line of order.lines; track $index) {
+                  {{ line.quantity }}× {{ line.dishName }}@if (!$last) {, }
+                }
+              </p>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+
+    <app-menu-view
+      [categories]="menu()"
+      [canOrder]="canOrder()"
+      [quantityOf]="quantityOf"
+      (add)="cart.add($event)"
+      (decrease)="decrease($event)"
+    />
+
+    @if (canOrder() && cart.count() > 0 && !cartOpen()) {
+      <div class="cart-bar">
+        <button type="button" class="btn btn-primary btn-block cart-button" (click)="cartOpen.set(true)">
+          <span class="count">{{ cart.count() }}</span>
+          <span>Ver pedido</span>
+          <span>{{ cart.total() | currency }}</span>
+        </button>
+      </div>
+    }
+
+    @if (cartOpen()) {
+      <app-cart-panel
+        [tableName]="table()?.name ?? ''"
+        [sending]="sending()"
+        [(notes)]="notes"
+        (close)="cartOpen.set(false)"
+        (submit)="sendOrder()"
+      />
+    }
+  }
+}

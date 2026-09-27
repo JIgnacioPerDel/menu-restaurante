@@ -9,26 +9,38 @@ npm install
 npm start
 ```
 
-App en http://localhost:4200. Las peticiones a `/api` se redirigen al backend (`http://localhost:8080`) mediante `proxy.conf.json`, así que en desarrollo no hay problemas de CORS.
+App en http://localhost:4200. Las peticiones a `/api` se redirigen al backend (`http://localhost:8080`) mediante `proxy.conf.json`.
+
+## Rutas
+
+| Ruta | Quién | Descripción |
+|------|-------|-------------|
+| `/carta` | Cualquiera | Carta de solo lectura |
+| `/mesa/:token` | Cliente (QR) | Carta + carrito + seguimiento de pedidos |
+| `/admin/login` | Personal | Inicio de sesión |
+| `/admin/pedidos` | Personal | Tablero de pedidos en tiempo real |
+| `/admin/carta` | Personal | Categorías y platos |
+| `/admin/mesas` | Personal | Mesas y códigos QR |
+
+Las rutas `/admin/**` están protegidas por `authGuard`, pero la seguridad real está en el backend: el guard es solo para la experiencia de usuario.
 
 ## Estructura (`src/app`)
 
 ```
-core/          Piezas globales: interceptores HTTP, modelos comunes
-shared/        Componentes reutilizables (p. ej. ErrorMessage)
-layout/        Estructura visual (Header)
-features/      Una carpeta por funcionalidad, con carga diferida
-  items/       Ejemplo CRUD contra /api/items
-    models/    Interfaces TypeScript
-    services/  Acceso a la API
-    pages/     Componentes enrutados
+core/
+  auth/          AuthService (sesión JWT) y authGuard
+  interceptors/  authInterceptor (añade el JWT solo a /api/admin) y errorInterceptor
+  models/        Tipos compartidos: carta, pedidos, mesas
+shared/          Componentes reutilizables
+layout/          PublicLayout y AdminLayout
+features/
+  menu/          Parte pública: carta, página de mesa, carrito (CartStore)
+  admin/         Panel: login, pedidos, carta, mesas
 ```
-
-`src/environments/` contiene la URL de la API (`environment.development.ts` en `ng serve`, `environment.ts` en producción).
 
 ## Docker
 
-Imagen multi-stage: Node compila la app y **nginx** sirve `dist/frontend/browser`. `nginx.conf` redirige `/api/` al servicio `backend` de docker-compose y devuelve `index.html` en cualquier otra ruta (necesario para el router de Angular).
+Imagen multi-stage: Node compila la app y **nginx** sirve `dist/frontend/browser`. `nginx.conf` redirige `/api/` al servicio `backend` de docker-compose y devuelve `index.html` en cualquier otra ruta.
 
 ## Scripts
 

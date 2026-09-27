@@ -1,0 +1,54 @@
+<div class="backdrop" (click)="close.emit()"></div>
+
+<section class="sheet" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+  <header class="sheet-header">
+    <h2 id="cart-title">Tu pedido · {{ tableName() }}</h2>
+    <button type="button" class="icon-btn" (click)="close.emit()" aria-label="Cerrar">✕</button>
+  </header>
+
+  @if (cart.lines().length) {
+    <ul class="lines">
+      @for (line of cart.lines(); track line.dish.id) {
+        <li class="line">
+          <div class="line-head">
+            <strong>{{ line.dish.name }}</strong>
+            <span>{{ line.dish.price * line.quantity | currency }}</span>
+          </div>
+          <div class="line-controls">
+            <div class="stepper">
+              <button type="button" (click)="cart.setQuantity(line.dish.id, line.quantity - 1)" aria-label="Quitar uno">−</button>
+              <span>{{ line.quantity }}</span>
+              <button type="button" (click)="cart.setQuantity(line.dish.id, line.quantity + 1)" aria-label="Añadir uno">+</button>
+            </div>
+            <input
+              class="line-notes"
+              type="text"
+              maxlength="200"
+              placeholder="Nota (p. ej. sin cebolla)"
+              [ngModel]="line.notes"
+              (ngModelChange)="cart.setNotes(line.dish.id, $event)"
+            />
+          </div>
+        </li>
+      }
+    </ul>
+
+    <label class="general-notes">
+      Nota para la cocina
+      <textarea rows="2" maxlength="500" placeholder="Alergias, preferencias…" [(ngModel)]="notes"></textarea>
+    </label>
+
+    <footer class="sheet-footer">
+      <div class="total">
+        <span>Total</span>
+        <strong>{{ cart.total() | currency }}</strong>
+      </div>
+      <button type="button" class="btn btn-primary btn-block" [disabled]="sending()" (click)="submit.emit()">
+        {{ sending() ? 'Enviando…' : 'Enviar pedido a cocina' }}
+      </button>
+      <p class="hint">Pagarás en el local al terminar.</p>
+    </footer>
+  } @else {
+    <p class="muted empty">Todavía no has añadido nada.</p>
+  }
+</section>

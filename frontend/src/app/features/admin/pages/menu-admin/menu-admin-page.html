@@ -1,0 +1,132 @@
+<div class="page-head">
+  <h1 class="page-title">Carta</h1>
+  <button type="button" class="btn btn-primary" [disabled]="!categories().length" (click)="newDish()">
+    + Nuevo plato
+  </button>
+</div>
+
+<app-error-message [message]="error()" />
+
+<div class="layout">
+  <aside class="card categories">
+    <h2>Categorías</h2>
+    <ul>
+      @for (category of categories(); track category.id) {
+        <li>
+          <span class="position">{{ category.position }}</span>
+          <span class="name">{{ category.name }}</span>
+          <span class="muted small">{{ dishesByCategory().get(category.id)?.length ?? 0 }}</span>
+          <button type="button" class="btn btn-sm" (click)="editCategory(category)">Editar</button>
+          <button type="button" class="btn btn-sm btn-ghost-danger" (click)="deleteCategory(category)"
+                  aria-label="Eliminar categoría">✕</button>
+        </li>
+      } @empty {
+        <li class="muted">Crea la primera categoría.</li>
+      }
+    </ul>
+
+    <form class="category-form" [formGroup]="categoryForm" (ngSubmit)="saveCategory()">
+      <h3>{{ editingCategoryId() ? 'Editar categoría' : 'Nueva categoría' }}</h3>
+      <div class="row">
+        <input formControlName="name" placeholder="Nombre" maxlength="60" />
+        <input formControlName="position" type="number" min="0" class="narrow" aria-label="Orden" title="Orden" />
+      </div>
+      <div class="row">
+        <button type="submit" class="btn btn-sm btn-primary">{{ editingCategoryId() ? 'Guardar' : 'Añadir' }}</button>
+        @if (editingCategoryId()) {
+          <button type="button" class="btn btn-sm" (click)="resetCategoryForm()">Cancelar</button>
+        }
+      </div>
+    </form>
+  </aside>
+
+  <section class="dishes">
+    @for (category of categories(); track category.id) {
+      <div class="card">
+        <div class="section-head">
+          <h2>{{ category.name }}</h2>
+          <button type="button" class="btn btn-sm" (click)="newDish(category.id)">+ Plato</button>
+        </div>
+        <table class="table">
+          <tbody>
+            @for (dish of dishesByCategory().get(category.id); track dish.id) {
+              <tr [class.unavailable]="!dish.available">
+                <td>
+                  <strong>{{ dish.name }}</strong>
+                  @if (dish.description) {
+                    <div class="muted small">{{ dish.description }}</div>
+                  }
+                </td>
+                <td class="price">{{ dish.price | currency }}</td>
+                <td>
+                  <button type="button" class="toggle" [class.on]="dish.available" (click)="toggleAvailable(dish)"
+                          [attr.aria-pressed]="dish.available">
+                    {{ dish.available ? 'Disponible' : 'Agotado' }}
+                  </button>
+                </td>
+                <td class="row-actions">
+                  <button type="button" class="btn btn-sm" (click)="editDish(dish)">Editar</button>
+                  <button type="button" class="btn btn-sm btn-ghost-danger" (click)="deleteDish(dish)"
+                          aria-label="Eliminar plato">✕</button>
+                </td>
+              </tr>
+            } @empty {
+              <tr><td class="muted">Sin platos en esta categoría.</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+</div>
+
+@if (editingDishId() !== null) {
+  <div class="modal-backdrop" (click)="closeDishForm()"></div>
+  <form class="modal card" [formGroup]="dishForm" (ngSubmit)="saveDish()" role="dialog" aria-modal="true">
+    <h2>{{ editingDishId() ? 'Editar plato' : 'Nuevo plato' }}</h2>
+
+    <label>
+      Nombre
+      <input formControlName="name" maxlength="100" />
+    </label>
+    <label>
+      Descripción
+      <textarea formControlName="description" rows="2" maxlength="500"></textarea>
+    </label>
+    <div class="row">
+      <label class="grow">
+        Categoría
+        <select formControlName="categoryId">
+          @for (category of categories(); track category.id) {
+            <option [ngValue]="category.id">{{ category.name }}</option>
+          }
+        </select>
+      </label>
+      <label>
+        Precio (€)
+        <input formControlName="price" type="number" min="0" step="0.05" class="narrow-lg" />
+      </label>
+    </div>
+    <label class="checkbox">
+      <input type="checkbox" formControlName="available" />
+      Disponible
+    </label>
+
+    <fieldset>
+      <legend>Alérgenos</legend>
+      <div class="allergen-grid">
+        @for (allergen of allergens; track allergen) {
+          <label class="checkbox">
+            <input type="checkbox" [checked]="hasAllergen(allergen)" (change)="toggleAllergen(allergen)" />
+            {{ allergenLabels[allergen] }}
+          </label>
+        }
+      </div>
+    </fieldset>
+
+    <div class="row end">
+      <button type="button" class="btn" (click)="closeDishForm()">Cancelar</button>
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+  </form>
+}

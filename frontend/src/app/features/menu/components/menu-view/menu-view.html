@@ -1,0 +1,50 @@
+<nav class="category-nav" aria-label="Categorías">
+  @for (category of categories(); track category.id) {
+    <button type="button" class="chip" (click)="scrollTo(category.id)">{{ category.name }}</button>
+  }
+</nav>
+
+@for (category of categories(); track category.id) {
+  <section class="category" [id]="'cat-' + category.id">
+    <h2>{{ category.name }}</h2>
+
+    <ul class="dishes">
+      @for (dish of category.dishes; track dish.id) {
+        <li class="dish">
+          <div class="dish-info">
+            <div class="dish-head">
+              <h3>{{ dish.name }}</h3>
+              <span class="price">{{ dish.price | currency }}</span>
+            </div>
+            @if (dish.description) {
+              <p class="description">{{ dish.description }}</p>
+            }
+            @if (dish.allergens.length) {
+              <ul class="allergens" aria-label="Alérgenos">
+                @for (allergen of dish.allergens; track allergen) {
+                  <li>{{ allergenLabels[allergen] }}</li>
+                }
+              </ul>
+            }
+          </div>
+
+          @if (canOrder()) {
+            <div class="dish-actions">
+              @if (quantityOf()(dish.id); as quantity) {
+                <div class="stepper">
+                  <button type="button" (click)="decrease.emit(dish)" [attr.aria-label]="'Quitar ' + dish.name">−</button>
+                  <span aria-live="polite">{{ quantity }}</span>
+                  <button type="button" (click)="add.emit(dish)" [attr.aria-label]="'Añadir otro ' + dish.name">+</button>
+                </div>
+              } @else {
+                <button type="button" class="btn btn-primary btn-sm" (click)="add.emit(dish)">Añadir</button>
+              }
+            </div>
+          }
+        </li>
+      }
+    </ul>
+  </section>
+} @empty {
+  <p class="muted empty">La carta todavía no tiene platos.</p>
+}

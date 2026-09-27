@@ -1,0 +1,38 @@
+@let o = order();
+<header class="order-head">
+  <span class="table-name">{{ o.tableName }}</span>
+  <span class="muted">#{{ o.id }} · {{ o.createdAt | date: 'shortTime' }}</span>
+</header>
+
+@if (showAge()) {
+  <span class="age" [class.late]="minutesAgo() >= 15">hace {{ minutesAgo() }} min</span>
+} @else {
+  <span class="status" [attr.data-status]="o.status">{{ statusLabels[o.status] }}</span>
+}
+
+<ul class="lines">
+  @for (line of o.lines; track $index) {
+    <li>
+      <strong>{{ line.quantity }}×</strong> {{ line.dishName }}
+      @if (line.notes) {
+        <em class="note">{{ line.notes }}</em>
+      }
+    </li>
+  }
+</ul>
+
+@if (o.notes) {
+  <p class="order-notes">📝 {{ o.notes }}</p>
+}
+
+<footer class="order-foot">
+  <strong>{{ o.total | currency }}</strong>
+  @if (nextStatus(o.status); as next) {
+    <div class="actions">
+      <button type="button" class="btn btn-sm btn-ghost-danger" [disabled]="busy()"
+              (click)="changeStatus.emit('CANCELLED')">Cancelar</button>
+      <button type="button" class="btn btn-sm btn-primary" [disabled]="busy()"
+              (click)="changeStatus.emit(next)">{{ statusLabels[next] }} →</button>
+    </div>
+  }
+</footer>
