@@ -1,6 +1,6 @@
-# Proyecto Base
+# Menú Restaurante
 
-Plantilla full-stack para nuevos proyectos.
+Aplicación full-stack para gestionar el menú de un restaurante.
 
 | Carpeta | Tecnología |
 |---------|------------|

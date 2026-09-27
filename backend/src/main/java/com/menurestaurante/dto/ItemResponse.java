@@ -1,4 +1,4 @@
-package com.proyectobase.dto;
+package com.menurestaurante.dto;
 
 import java.time.Instant;
 

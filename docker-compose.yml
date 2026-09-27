@@ -1,11 +1,11 @@
-name: proyecto-base
+name: menu-restaurante
 
 services:
   db:
     image: postgres:17-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${DB_NAME:-appdb}
+      POSTGRES_DB: ${DB_NAME:-menudb}
       POSTGRES_USER: ${DB_USERNAME:-app}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-app}
     ports:
@@ -23,7 +23,7 @@ services:
     restart: unless-stopped
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      DB_URL: jdbc:postgresql://db:5432/${DB_NAME:-appdb}
+      DB_URL: jdbc:postgresql://db:5432/${DB_NAME:-menudb}
       DB_USERNAME: ${DB_USERNAME:-app}
       DB_PASSWORD: ${DB_PASSWORD:-app}
       CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost}

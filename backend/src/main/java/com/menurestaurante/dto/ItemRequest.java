@@ -1,4 +1,4 @@
-package com.proyectobase.dto;
+package com.menurestaurante.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

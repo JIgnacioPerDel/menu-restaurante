@@ -6,7 +6,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   imports: [RouterLink, RouterLinkActive],
   template: `
     <header class="header">
-      <a class="brand" routerLink="/">Proyecto Base</a>
+      <a class="brand" routerLink="/">Menú Restaurante</a>
       <nav>
         <a routerLink="/items" routerLinkActive="active">Items</a>
       </nav>

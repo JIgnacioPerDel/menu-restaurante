@@ -1,8 +1,8 @@
-package com.proyectobase.mapper;
+package com.menurestaurante.mapper;
 
-import com.proyectobase.dto.ItemRequest;
-import com.proyectobase.dto.ItemResponse;
-import com.proyectobase.model.Item;
+import com.menurestaurante.dto.ItemRequest;
+import com.menurestaurante.dto.ItemResponse;
+import com.menurestaurante.model.Item;
 import org.springframework.stereotype.Component;
 
 @Component

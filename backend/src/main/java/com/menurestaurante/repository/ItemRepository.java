@@ -1,6 +1,6 @@
-package com.proyectobase.repository;
+package com.menurestaurante.repository;
 
-import com.proyectobase.model.Item;
+import com.menurestaurante.model.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {

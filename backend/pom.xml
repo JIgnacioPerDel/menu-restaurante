@@ -11,11 +11,11 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.proyectobase</groupId>
+    <groupId>com.menurestaurante</groupId>
     <artifactId>backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>backend</name>
-    <description>Estructura base backend con Spring Boot</description>
+    <description>Backend del menú de restaurante</description>
 
     <properties>
         <java.version>21</java.version>

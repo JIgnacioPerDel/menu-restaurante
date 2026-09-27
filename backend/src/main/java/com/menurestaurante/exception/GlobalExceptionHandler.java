@@ -1,4 +1,4 @@
-package com.proyectobase.exception;
+package com.menurestaurante.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;

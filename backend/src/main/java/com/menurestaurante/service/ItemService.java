@@ -1,11 +1,11 @@
-package com.proyectobase.service;
+package com.menurestaurante.service;
 
-import com.proyectobase.dto.ItemRequest;
-import com.proyectobase.dto.ItemResponse;
-import com.proyectobase.exception.ResourceNotFoundException;
-import com.proyectobase.mapper.ItemMapper;
-import com.proyectobase.model.Item;
-import com.proyectobase.repository.ItemRepository;
+import com.menurestaurante.dto.ItemRequest;
+import com.menurestaurante.dto.ItemResponse;
+import com.menurestaurante.exception.ResourceNotFoundException;
+import com.menurestaurante.mapper.ItemMapper;
+import com.menurestaurante.model.Item;
+import com.menurestaurante.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

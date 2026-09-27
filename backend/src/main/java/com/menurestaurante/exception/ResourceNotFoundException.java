@@ -1,4 +1,4 @@
-package com.proyectobase.exception;
+package com.menurestaurante.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
 

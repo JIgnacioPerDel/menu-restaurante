@@ -28,12 +28,12 @@ El esquema se gestiona con **Flyway** (`src/main/resources/db/migration`), tambi
 ## Docker
 
 ```bash
-docker build -t proyecto-base-backend .
+docker build -t menu-restaurante-backend .
 ```
 
 Imagen multi-stage (JDK para compilar, JRE para ejecutar) con usuario sin privilegios y perfil `prod` por defecto. Para levantarlo junto a PostgreSQL y el frontend, usa el `docker-compose.yml` de la raíz.
 
-## Estructura (`com.proyectobase`)
+## Estructura (`com.menurestaurante`)
 
 ```
 config/      Configuración (CORS, beans...)

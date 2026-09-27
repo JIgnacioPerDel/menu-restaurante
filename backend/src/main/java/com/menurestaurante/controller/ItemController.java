@@ -1,8 +1,8 @@
-package com.proyectobase.controller;
+package com.menurestaurante.controller;
 
-import com.proyectobase.dto.ItemRequest;
-import com.proyectobase.dto.ItemResponse;
-import com.proyectobase.service.ItemService;
+import com.menurestaurante.dto.ItemRequest;
+import com.menurestaurante.dto.ItemResponse;
+import com.menurestaurante.service.ItemService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
